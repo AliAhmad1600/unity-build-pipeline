@@ -1,0 +1,11 @@
+﻿{
+  "agentId": 2,
+  "agentName": "ARC",
+  "poolId": 1,
+  "poolName": "Default",
+  "serverUrl": "https://pipelinesghubeus15.actions.githubusercontent.com/vSVftLgodSJ2diePV08cjkEtdQyiOueGsCbkZNPWZuZoHP3cDj/",
+  "gitHubUrl": "https://github.com/AliAhmad1600/unity-build-pipeline",
+  "workFolder": "_work",
+  "useV2Flow": true,
+  "serverUrlV2": "https://broker.actions.githubusercontent.com/"
+}
