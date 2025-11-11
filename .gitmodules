@@ -1,0 +1,3 @@
+[submodule "PrivateProject"]
+	path = PrivateProject
+	url = https://github.com/AliAhmad1600/private-project-repo.git
