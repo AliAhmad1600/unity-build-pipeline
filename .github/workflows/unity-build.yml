@@ -1,5 +1,5 @@
 name: Unity Build
-
+ 
 on:
   workflow_dispatch: # manual trigger
 
@@ -7,11 +7,14 @@ jobs:
   build:
     runs-on: [self-hosted, Windows, X64] # ensures it runs on your self-hosted runner
     steps:
-      - name: Checkout public repo
-        uses: actions/checkout@v3
+      # Step 1: Checkout public repo + private submodule with access token
+      - name: Checkout public repo with private submodules
+        uses: actions/checkout@v4
         with:
-          submodules: true # pulls private repo as submodule
+          submodules: true            # pulls private repo as submodule
+          token: ${{ secrets.ACCESS_TOKEN }}  # authenticate private submodule
 
+      # Step 2: Run your Unity build bat file
       - name: Run Unity Build
         run: |
-          call C:\Users\Aaron\Desktop\Builds\BuildAndroid.bat
+          call C:\Users\Aaron\Desktop\Builds\TestBuildAndroid.bat
