@@ -8,13 +8,19 @@ jobs:
     runs-on: [self-hosted, Windows, X64]
 
     steps:
-      - name: Checkout repo with submodule
-        uses: actions/checkout@v3
+      - name: Checkout repo with private submodule authentication
+        uses: actions/checkout@v4 # Recommended latest version
         with:
+          # 1. Provide the secret token created in Step 2
+          token: ${{ secrets.PRIVATE_REPO_ACCESS_TOKEN }} 
+          
+          # 2. Tells the action to initialize and update submodules
           submodules: true
-          persist-credentials: false
-          token: ${{ secrets.privatetoken }}
-
+          
+          # 3. CRITICAL FIX: Ensures the token is used for submodule authentication (via HTTPS URL).
+          persist-credentials: true 
+          
       - name: Run Unity Build
+        # This calls your batch script on the self-hosted runner
         run: |
           call C:\Users\Aaron\Desktop\Builds\TestBuildAndroid.bat
