@@ -13,7 +13,7 @@ jobs:
         with:
           submodules: true
           persist-credentials: false
-          token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.privatetoken }}
 
       - name: Run Unity Build
         run: |
