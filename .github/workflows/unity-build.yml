@@ -21,6 +21,8 @@ jobs:
           persist-credentials: true 
           
       - name: Run Unity Build
+        # ADDED FIX: Explicitly use Command Prompt (cmd) shell to run the 'call' command.
+        shell: cmd 
         # This calls your batch script on the self-hosted runner
         run: |
           call C:\Users\Aaron\Desktop\Builds\TestBuildAndroid.bat
