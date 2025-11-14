@@ -1,0 +1,96 @@
+[2025-11-14 13:17:44Z INFO HostContext] No proxy settings were found based on environmental variables (http_proxy/https_proxy/HTTP_PROXY/HTTPS_PROXY)
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Bin': 'C:\Projects\unity-build-pipeline\actions-runner\bin'
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Root': 'C:\Projects\unity-build-pipeline\actions-runner'
+[2025-11-14 13:17:44Z INFO HostContext] Well known config file 'Credentials': 'C:\Projects\unity-build-pipeline\actions-runner\.credentials'
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Bin': 'C:\Projects\unity-build-pipeline\actions-runner\bin'
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Root': 'C:\Projects\unity-build-pipeline\actions-runner'
+[2025-11-14 13:17:44Z INFO HostContext] Well known config file 'Runner': 'C:\Projects\unity-build-pipeline\actions-runner\.runner'
+[2025-11-14 13:17:44Z INFO Listener] Runner is built for Windows (X64) - win-x64.
+[2025-11-14 13:17:44Z INFO Listener] RuntimeInformation: Microsoft Windows 10.0.26100.
+[2025-11-14 13:17:44Z INFO Listener] Version: 2.329.0
+[2025-11-14 13:17:44Z INFO Listener] Commit: c76c59996c8fa32e989164a5a695efb12608ae5a
+[2025-11-14 13:17:44Z INFO Listener] Culture: en-PK
+[2025-11-14 13:17:44Z INFO Listener] UI Culture: en-US
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Bin': 'C:\Projects\unity-build-pipeline\actions-runner\bin'
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Root': 'C:\Projects\unity-build-pipeline\actions-runner'
+[2025-11-14 13:17:44Z INFO Listener] Validating directory permissions for: 'C:\Projects\unity-build-pipeline\actions-runner'
+[2025-11-14 13:17:44Z INFO CommandLineParser] Parse
+[2025-11-14 13:17:44Z INFO CommandLineParser] Parsing 3 args
+[2025-11-14 13:17:44Z INFO CommandLineParser] parsing argument
+[2025-11-14 13:17:44Z INFO CommandLineParser] HasArgs: False
+[2025-11-14 13:17:44Z INFO CommandLineParser] Adding Command: remove
+[2025-11-14 13:17:44Z INFO CommandLineParser] parsing argument
+[2025-11-14 13:17:44Z INFO CommandLineParser] HasArgs: True
+[2025-11-14 13:17:44Z INFO CommandLineParser] arg: token
+[2025-11-14 13:17:44Z INFO CommandLineParser] parsing argument
+[2025-11-14 13:17:44Z INFO CommandLineParser] HasArgs: True
+[2025-11-14 13:17:44Z INFO CommandLineParser] Adding option 'token': '***'
+[2025-11-14 13:17:44Z INFO Listener] Arguments parsed
+[2025-11-14 13:17:44Z INFO Runner] ExecuteCommand
+[2025-11-14 13:17:44Z INFO ConfigurationStore] currentAssemblyLocation: C:\Projects\unity-build-pipeline\actions-runner\bin\Runner.Listener.dll
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Bin': 'C:\Projects\unity-build-pipeline\actions-runner\bin'
+[2025-11-14 13:17:44Z INFO ConfigurationStore] binPath: C:\Projects\unity-build-pipeline\actions-runner\bin
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Bin': 'C:\Projects\unity-build-pipeline\actions-runner\bin'
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Root': 'C:\Projects\unity-build-pipeline\actions-runner'
+[2025-11-14 13:17:44Z INFO ConfigurationStore] RootFolder: C:\Projects\unity-build-pipeline\actions-runner
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Bin': 'C:\Projects\unity-build-pipeline\actions-runner\bin'
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Root': 'C:\Projects\unity-build-pipeline\actions-runner'
+[2025-11-14 13:17:44Z INFO HostContext] Well known config file 'Runner': 'C:\Projects\unity-build-pipeline\actions-runner\.runner'
+[2025-11-14 13:17:44Z INFO ConfigurationStore] ConfigFilePath: C:\Projects\unity-build-pipeline\actions-runner\.runner
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Bin': 'C:\Projects\unity-build-pipeline\actions-runner\bin'
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Root': 'C:\Projects\unity-build-pipeline\actions-runner'
+[2025-11-14 13:17:44Z INFO HostContext] Well known config file 'MigratedRunner': 'C:\Projects\unity-build-pipeline\actions-runner\.runner_migrated'
+[2025-11-14 13:17:44Z INFO ConfigurationStore] MigratedConfigFilePath: C:\Projects\unity-build-pipeline\actions-runner\.runner_migrated
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Bin': 'C:\Projects\unity-build-pipeline\actions-runner\bin'
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Root': 'C:\Projects\unity-build-pipeline\actions-runner'
+[2025-11-14 13:17:44Z INFO HostContext] Well known config file 'Credentials': 'C:\Projects\unity-build-pipeline\actions-runner\.credentials'
+[2025-11-14 13:17:44Z INFO ConfigurationStore] CredFilePath: C:\Projects\unity-build-pipeline\actions-runner\.credentials
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Bin': 'C:\Projects\unity-build-pipeline\actions-runner\bin'
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Root': 'C:\Projects\unity-build-pipeline\actions-runner'
+[2025-11-14 13:17:44Z INFO HostContext] Well known config file 'MigratedCredentials': 'C:\Projects\unity-build-pipeline\actions-runner\.credentials_migrated'
+[2025-11-14 13:17:44Z INFO ConfigurationStore] MigratedCredFilePath: C:\Projects\unity-build-pipeline\actions-runner\.credentials_migrated
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Bin': 'C:\Projects\unity-build-pipeline\actions-runner\bin'
+[2025-11-14 13:17:44Z INFO HostContext] Well known directory 'Root': 'C:\Projects\unity-build-pipeline\actions-runner'
+[2025-11-14 13:17:44Z INFO HostContext] Well known config file 'Service': 'C:\Projects\unity-build-pipeline\actions-runner\.service'
+[2025-11-14 13:17:44Z INFO ConfigurationStore] ServiceConfigFilePath: C:\Projects\unity-build-pipeline\actions-runner\.service
+[2025-11-14 13:17:44Z INFO CommandSettings] Flag 'help': 'False'
+[2025-11-14 13:17:44Z INFO CommandSettings] Flag 'version': 'False'
+[2025-11-14 13:17:44Z INFO CommandSettings] Flag 'commit': 'False'
+[2025-11-14 13:17:44Z INFO CommandSettings] Flag 'check': 'False'
+[2025-11-14 13:17:44Z INFO CommandSettings] Command 'configure': 'False'
+[2025-11-14 13:17:44Z INFO CommandSettings] Command 'remove': 'True'
+[2025-11-14 13:17:44Z INFO CommandSettings] Flag 'local': 'False'
+[2025-11-14 13:17:44Z INFO ConfigurationStore] IsServiceConfigured()
+[2025-11-14 13:17:44Z INFO ConfigurationStore] IsServiceConfigured: False
+[2025-11-14 13:17:44Z INFO ConfigurationStore] IsConfigured()
+[2025-11-14 13:17:44Z INFO ConfigurationStore] IsConfigured: True
+[2025-11-14 13:17:44Z INFO ConfigurationStore] HasCredentials()
+[2025-11-14 13:17:44Z INFO ConfigurationStore] stored True
+[2025-11-14 13:17:44Z INFO ConfigurationStore] Read setting file: 401 chars
+[2025-11-14 13:17:44Z INFO CommandSettings] Arg 'token': '***'
+[2025-11-14 13:17:44Z INFO CommandSettings] Remove token from Arg dictionary.
+[2025-11-14 13:17:45Z INFO ConfigurationManager] Http response code: OK from 'POST https://api.github.com/actions/runner-registration' (C2A8:4525C:31BE5D:3681D8:69172BFA)
+[2025-11-14 13:17:45Z INFO ConfigurationManager] cred retrieved via GitHub auth
+[2025-11-14 13:17:45Z INFO RunnerServer] EstablishVssConnection
+[2025-11-14 13:17:45Z INFO RunnerServer] Establish connection with 100 seconds timeout.
+[2025-11-14 13:17:45Z INFO GitHubActionsService] Starting operation Location.GetConnectionData
+[2025-11-14 13:17:45Z INFO RunnerServer] EstablishVssConnection
+[2025-11-14 13:17:45Z INFO RunnerServer] Establish connection with 60 seconds timeout.
+[2025-11-14 13:17:45Z INFO GitHubActionsService] Starting operation Location.GetConnectionData
+[2025-11-14 13:17:45Z INFO RunnerServer] EstablishVssConnection
+[2025-11-14 13:17:45Z INFO RunnerServer] Establish connection with 60 seconds timeout.
+[2025-11-14 13:17:45Z INFO GitHubActionsService] Starting operation Location.GetConnectionData
+[2025-11-14 13:17:46Z INFO GitHubActionsService] Finished operation Location.GetConnectionData
+[2025-11-14 13:17:46Z INFO GitHubActionsService] Finished operation Location.GetConnectionData
+[2025-11-14 13:17:46Z INFO GitHubActionsService] Finished operation Location.GetConnectionData
+[2025-11-14 13:17:46Z INFO Terminal] WRITE LINE: 
+[2025-11-14 13:17:46Z INFO ConfigurationStore] IsConfigured()
+[2025-11-14 13:17:46Z INFO ConfigurationStore] IsConfigured: True
+[2025-11-14 13:17:46Z INFO ConfigurationStore] HasCredentials()
+[2025-11-14 13:17:46Z INFO ConfigurationStore] stored True
+[2025-11-14 13:17:46Z INFO HostContext] Well known directory 'Bin': 'C:\Projects\unity-build-pipeline\actions-runner\bin'
+[2025-11-14 13:17:46Z INFO HostContext] Well known directory 'Root': 'C:\Projects\unity-build-pipeline\actions-runner'
+[2025-11-14 13:17:46Z INFO HostContext] Well known config file 'RSACredentials': 'C:\Projects\unity-build-pipeline\actions-runner\.credentials_rsaparams'
+[2025-11-14 13:17:46Z INFO RSAEncryptedFileKeyManager] Deleting RSA key parameters file C:\Projects\unity-build-pipeline\actions-runner\.credentials_rsaparams
+[2025-11-14 13:17:46Z INFO Terminal] WRITE LINE: 
+[2025-11-14 13:17:46Z INFO Listener] Runner execution has finished with return code 0
