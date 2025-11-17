@@ -1,4 +1,4 @@
-name: Unity Build
+name: Unity Build and Upload
 
 on:
   workflow_dispatch:
@@ -9,20 +9,23 @@ jobs:
 
     steps:
       - name: Checkout repo with private submodule authentication
-        uses: actions/checkout@v4 # Recommended latest version
+        uses: actions/checkout@v4
         with:
-          # 1. Provide the secret token created in Step 2
-          token: ${{ secrets.PRIVATE_REPO_ACCESS_TOKEN }} 
-          
-          # 2. Tells the action to initialize and update submodules
+          token: ${{ secrets.PRIVATE_REPO_ACCESS_TOKEN }}
           submodules: true
-          
-          # 3. CRITICAL FIX: Ensures the token is used for submodule authentication (via HTTPS URL).
-          persist-credentials: true 
-          
+          persist-credentials: true
+
       - name: Run Unity Build
-        # ADDED FIX: Explicitly use Command Prompt (cmd) shell to run the 'call' command.
-        shell: cmd 
-        # This calls your batch script on the self-hosted runner
+        shell: cmd
         run: |
           call C:\Users\Aaron\Desktop\Builds\TestBuildAndroid.bat
+
+      - name: Upload build to Google Drive
+        shell: cmd
+        env:
+          RCLONE_CONFIG_GDRIVE_TOKEN: ${{ secrets.RCLONE_GDRIVE_TOKEN }}
+        run: |
+          REM Replace the path below with your local build output folder
+          set BUILD_PATH=C:\Users\Aaron\Desktop\Builds\Builds
+          REM Upload to your Google Drive folder
+          C:\rclone\rclone.exe copy "%BUILD_PATH%" gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM --progress
