@@ -25,7 +25,7 @@ jobs:
           RCLONE_CONFIG_GDRIVE_TOKEN: ${{ secrets.RCLONE_GDRIVE_TOKEN }}
         run: C:\rclone\rclone.exe copy "C:\Users\Aaron\Desktop\Builds\Builds" gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM --progress
 
-      - name: Slack Notification: Success
+      - name: Slack Notification Success
         if: success()
         uses: rtCamp/action-slack-notify@v2
         env:
@@ -38,7 +38,7 @@ jobs:
             *Branch:* `${{ github.ref_name }}`
             <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|:mag: View Full Log on GitHub>
 
-      - name: Slack Notification: Failure
+      - name: Slack Notification Failure
         if: failure()
         uses: rtCamp/action-slack-notify@v2
         env:
