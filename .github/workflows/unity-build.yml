@@ -34,7 +34,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           $payload = (@{
-            text = "⚙️ Unity Build process is starting.`n*Workflow:* $env:GITHUB_WORKFLOW`n*Branch:* $env:GITHUB_REF_NAME"
+            text = "Unity Build process is starting.`n*Workflow:* $env:GITHUB_WORKFLOW`n*Branch:* $env:GITHUB_REF_NAME"
           }) | ConvertTo-Json -Compress
           Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
 
@@ -60,7 +60,11 @@ jobs:
         run: |
           $emoji = if ($env:JOB_STATUS -eq "success") { "" } else { "" }
           $text = if ($env:JOB_STATUS -eq "success") { "Build & Upload SUCCESS" } else { "Build OR Upload FAILED" }
+
+          # Google Drive folder path
+          $googleDrivePath = "gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM"
+
           $payload = (@{
-            text = "$emoji $text`n*Workflow:* $env:GITHUB_WORKFLOW`n*Result:* $env:JOB_STATUS`n*Branch:* $env:GITHUB_REF_NAME`n<https://github.com/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID|View Full Log on GitHub>"
+            text = "$emoji $text`n*Workflow:* $env:GITHUB_WORKFLOW`n*Result:* $env:JOB_STATUS`n*Branch:* $env:GITHUB_REF_NAME`n*Google Drive Folder:* $googleDrivePath`n<https://github.com/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID|View Full Log on GitHub>"
           }) | ConvertTo-Json -Compress
           Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
