@@ -21,20 +21,6 @@ jobs:
         shell: cmd
         run: call "C:\Users\Aaron\Desktop\Builds\TestBuildAndroid.bat"
 
-      # Slack notification BEFORE upload
-      - name: Slack Notification Before Upload
-        shell: powershell
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-        run: |
-          $payload = @{
-            text = "🚀 Upload starting...
-*Workflow:* $env:GITHUB_WORKFLOW
-*Branch:* $env:GITHUB_REF_NAME
-<https://github.com/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID|View Full Log on GitHub>"
-          } | ConvertTo-Json -Compress
-          Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
-
       # Upload build to Google Drive
       - name: Upload build to Google Drive
         shell: cmd
@@ -42,8 +28,8 @@ jobs:
           RCLONE_CONFIG_GDRIVE_TOKEN: ${{ secrets.RCLONE_GDRIVE_TOKEN }}
         run: 'C:\rclone\rclone.exe copy "C:\Users\Aaron\Desktop\Builds\Builds" gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM --progress'
 
-      # Slack notification AFTER upload (success or failure)
-      - name: Slack Notification Upload Result
+      # Slack notification (success or failure)
+      - name: Slack Notification
         if: always()
         shell: powershell
         env:
