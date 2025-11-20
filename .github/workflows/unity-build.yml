@@ -28,7 +28,7 @@ jobs:
           RCLONE_CONFIG_GDRIVE_TOKEN: ${{ secrets.RCLONE_GDRIVE_TOKEN }}
         run: 'C:\rclone\rclone.exe copy "C:\Users\Aaron\Desktop\Builds\Builds" gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM --progress'
 
-      # 4. Slack notification (reports success or failure)
+      # 4. Slack notification (success or failure)
       - name: Slack Notification
         if: always()
         shell: powershell
@@ -36,13 +36,13 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           JOB_STATUS: ${{ job.status }}
         run: |
-          $statusEmoji = if ($env:JOB_STATUS -eq "success") { "✅" } else { "❌" }
-          $statusText = if ($env:JOB_STATUS -eq "success") { "BUILD & UPLOAD SUCCESS" } else { "BUILD OR UPLOAD FAILED" }
+          $emoji = if ($env:JOB_STATUS -eq "success") { "✅" } else { "❌" }
+          $text = if ($env:JOB_STATUS -eq "success") { "BUILD & UPLOAD SUCCESS" } else { "BUILD OR UPLOAD FAILED" }
           $payload = @{
-            text = "$statusEmoji $statusText
+            text = "$emoji $text
 *Workflow:* $env:GITHUB_WORKFLOW
 *Result:* $env:JOB_STATUS
 *Branch:* $env:GITHUB_REF_NAME
 <https://github.com/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID|View Full Log on GitHub>"
-          } | ConvertTo-Json
+          } | ConvertTo-Json -Compress
           Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
