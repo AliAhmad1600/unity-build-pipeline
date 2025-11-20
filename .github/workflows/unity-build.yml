@@ -8,35 +8,35 @@ jobs:
     runs-on: [self-hosted, Windows, X64]
 
     steps:
-      # Slack notification: Build process starting
-      - name: Slack Notification: Build Process Starting
+      # Slack notification before any process
+      - name: Slack Notification - Workflow Starting
         shell: powershell
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           $payload = @{
-            text = "🚀 Build process is starting...
+            text = "🚀 Unity Build workflow is starting.
 *Workflow:* $env:GITHUB_WORKFLOW
 *Branch:* $env:GITHUB_REF_NAME"
           } | ConvertTo-Json -Compress
           Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
 
       # Checkout repository
-      - name: Checkout repo with private submodule authentication
+      - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.PRIVATE_REPO_ACCESS_TOKEN }}
           submodules: true
           persist-credentials: true
 
-      # Slack notification: Unity build starting
-      - name: Slack Notification: Unity Build Starting
+      # Slack notification before build
+      - name: Slack Notification - Build Starting
         shell: powershell
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           $payload = @{
-            text = "🏗️ Unity build is starting...
+            text = "⚙️ Unity Build process is starting.
 *Workflow:* $env:GITHUB_WORKFLOW
 *Branch:* $env:GITHUB_REF_NAME"
           } | ConvertTo-Json -Compress
@@ -48,14 +48,14 @@ jobs:
         run: call "C:\Users\Aaron\Desktop\Builds\TestBuildAndroid.bat"
 
       # Upload build to Google Drive
-      - name: Upload build to Google Drive
+      - name: Upload Build to Google Drive
         shell: cmd
         env:
           RCLONE_CONFIG_GDRIVE_TOKEN: ${{ secrets.RCLONE_GDRIVE_TOKEN }}
         run: 'C:\rclone\rclone.exe copy "C:\Users\Aaron\Desktop\Builds\Builds" gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM --progress'
 
-      # Slack notification (success or failure)
-      - name: Slack Notification
+      # Slack notification after build success or failure
+      - name: Slack Notification - Build Result
         if: always()
         shell: powershell
         env:
@@ -63,7 +63,7 @@ jobs:
           JOB_STATUS: ${{ job.status }}
         run: |
           $emoji = if ($env:JOB_STATUS -eq "success") { "✅" } else { "❌" }
-          $text = if ($env:JOB_STATUS -eq "success") { "BUILD & UPLOAD SUCCESS" } else { "BUILD OR UPLOAD FAILED" }
+          $text = if ($env:JOB_STATUS -eq "success") { "Build & Upload SUCCESS" } else { "Build OR Upload FAILED" }
           $payload = @{
             text = "$emoji $text
 *Workflow:* $env:GITHUB_WORKFLOW
