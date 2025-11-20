@@ -9,7 +9,7 @@ jobs:
 
     steps:
       # Slack notification: Build process starting
-      - name: Slack Notification Build Process Starting
+      - name: Slack Notification: Build Process Starting
         shell: powershell
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -30,7 +30,7 @@ jobs:
           persist-credentials: true
 
       # Slack notification: Unity build starting
-      - name: Slack Notification Unity Build Starting
+      - name: Slack Notification: Unity Build Starting
         shell: powershell
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
