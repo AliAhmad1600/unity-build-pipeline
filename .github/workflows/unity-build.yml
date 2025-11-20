@@ -8,13 +8,17 @@ jobs:
     runs-on: [self-hosted, Windows, X64]
 
     steps:
-      # Pre-checkout Slack message
-      - name: Slack Notification Workflow Started
+      # Slack notification: Build process starting
+      - name: Slack Notification: Build Process Starting
         shell: powershell
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          $payload = @{ text = "🏁 Unity Build workflow started for branch $env:GITHUB_REF_NAME" } | ConvertTo-Json
+          $payload = @{
+            text = "🚀 Build process is starting...
+*Workflow:* $env:GITHUB_WORKFLOW
+*Branch:* $env:GITHUB_REF_NAME"
+          } | ConvertTo-Json -Compress
           Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
 
       # Checkout repository
@@ -25,13 +29,17 @@ jobs:
           submodules: true
           persist-credentials: true
 
-      # Pre-build Slack message
-      - name: Slack Notification Build Started
+      # Slack notification: Unity build starting
+      - name: Slack Notification: Unity Build Starting
         shell: powershell
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          $payload = @{ text = "🔨 Build started for branch $env:GITHUB_REF_NAME" } | ConvertTo-Json
+          $payload = @{
+            text = "🏗️ Unity build is starting...
+*Workflow:* $env:GITHUB_WORKFLOW
+*Branch:* $env:GITHUB_REF_NAME"
+          } | ConvertTo-Json -Compress
           Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
 
       # Run Unity Build
@@ -44,11 +52,10 @@ jobs:
         shell: cmd
         env:
           RCLONE_CONFIG_GDRIVE_TOKEN: ${{ secrets.RCLONE_GDRIVE_TOKEN }}
-        run: |
-          C:\rclone\rclone.exe copy "C:\Users\Aaron\Desktop\Builds\Builds" gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM --progress
+        run: 'C:\rclone\rclone.exe copy "C:\Users\Aaron\Desktop\Builds\Builds" gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM --progress'
 
       # Slack notification (success or failure)
-      - name: Slack Notification Result
+      - name: Slack Notification
         if: always()
         shell: powershell
         env:
