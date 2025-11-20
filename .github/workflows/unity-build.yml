@@ -31,12 +31,12 @@ jobs:
           C:\rclone\rclone.exe copy "%BUILD_PATH%" gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM --progress
 
       - name: Send Slack Notification
-        if: always() # Ensures the notification runs even if previous steps fail
+        if: always() # Ensure this runs even if previous steps fail
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          MSG_PRETEXT: ${{ job.status == 'success' ? ':white_check_mark: BUILD & UPLOAD SUCCESS' : ':x: BUILD OR UPLOAD FAILED' }}
-          MSG_COLOR: ${{ job.status == 'success' ? 'good' : 'danger' }}
+          MSG_PRETEXT: ${{ job.status == 'success' ? ":white_check_mark: BUILD & UPLOAD SUCCESS" : ":x: BUILD OR UPLOAD FAILED" }}
+          MSG_COLOR: ${{ job.status == 'success' ? "good" : "danger" }}
           SLACK_MESSAGE: |
             *Workflow:* `${{ github.workflow }}`
             *Result:* *${{ job.status }}*
