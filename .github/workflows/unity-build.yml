@@ -8,6 +8,7 @@ jobs:
     runs-on: [self-hosted, Windows, X64]
 
     steps:
+      # Checkout repository with private submodules
       - name: Checkout repo with private submodule authentication
         uses: actions/checkout@v4
         with:
@@ -15,38 +16,46 @@ jobs:
           submodules: true
           persist-credentials: true
 
+      # Run Unity Build
       - name: Run Unity Build
         shell: cmd
-        run: call C:\Users\Aaron\Desktop\Builds\TestBuildAndroid.bat
+        run: call "C:\Users\Aaron\Desktop\Builds\TestBuildAndroid.bat"
 
+      # Upload build to Google Drive
       - name: Upload build to Google Drive
         shell: cmd
         env:
           RCLONE_CONFIG_GDRIVE_TOKEN: ${{ secrets.RCLONE_GDRIVE_TOKEN }}
-        run: C:\rclone\rclone.exe copy "C:\Users\Aaron\Desktop\Builds\Builds" gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM --progress
+        run: 'C:\rclone\rclone.exe copy "C:\Users\Aaron\Desktop\Builds\Builds" gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM --progress'
 
+      # Slack notification on SUCCESS
       - name: Slack Notification Success
         if: success()
-        uses: rtCamp/action-slack-notify@v2
+        shell: powershell
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          MSG_PRETEXT: "✅ BUILD & UPLOAD SUCCESS"
-          MSG_COLOR: "good"
-          SLACK_MESSAGE: |
-            *Workflow:* `${{ github.workflow }}`
-            *Result:* *Success*
-            *Branch:* `${{ github.ref_name }}`
-            <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|:mag: View Full Log on GitHub>
+        run: |
+          $payload = @{
+            text = "✅ BUILD & UPLOAD SUCCESS
+*Workflow:* $env:GITHUB_WORKFLOW
+*Result:* Success
+*Branch:* $env:GITHUB_REF_NAME
+<https://github.com/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID|View Full Log on GitHub>"
+          } | ConvertTo-Json
+          Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
 
+      # Slack notification on FAILURE
       - name: Slack Notification Failure
         if: failure()
-        uses: rtCamp/action-slack-notify@v2
+        shell: powershell
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          MSG_PRETEXT: "❌ BUILD OR UPLOAD FAILED"
-          MSG_COLOR: "danger"
-          SLACK_MESSAGE: |
-            *Workflow:* `${{ github.workflow }}`
-            *Result:* *Failed*
-            *Branch:* `${{ github.ref_name }}`
-            <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|:mag: View Full Log on GitHub>
+        run: |
+          $payload = @{
+            text = "❌ BUILD OR UPLOAD FAILED
+*Workflow:* $env:GITHUB_WORKFLOW
+*Result:* Failed
+*Branch:* $env:GITHUB_REF_NAME
+<https://github.com/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID|View Full Log on GitHub>"
+          } | ConvertTo-Json
+          Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
