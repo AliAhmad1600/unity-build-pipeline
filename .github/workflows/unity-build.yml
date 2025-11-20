@@ -38,15 +38,12 @@ jobs:
           # Reference the secret created in the GitHub repository settings
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           
-          # Sets the color and pretext based on the job result (success/failure)
-          MSG_PRETEXT: |
-            ${{ job.status == 'success' && ':white_check_mark: BUILD & UPLOAD SUCCESS' || ':x: BUILD OR UPLOAD FAILED' }}
+          # FIX: Flattened to single line to avoid "Value cannot be null" error
+          MSG_PRETEXT: ${{ job.status == 'success' && ':white_check_mark: BUILD & UPLOAD SUCCESS' || ':x: BUILD OR UPLOAD FAILED' }}
           
-          MSG_COLOR: |
-            ${{ job.status == 'success' && 'good' || 'danger' }} # 'good' is green, 'danger' is red
-            
-          SLACK_MESSAGE: |
-            *Workflow:* `${{ github.workflow }}`
-            *Result:* *${{ job.status }}*
-            *Branch:* `${{ github.ref_name }}`
-            <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|:mag: View Full Log on GitHub>
+         # FIX: Flattened to single line
+          MSG_COLOR: ${{ job.status == 'success' && 'good' || 'danger' }}
+           
+          # CRITICAL FIX: Flattened SLACK_MESSAGE into a single string 
+          # using "\n" for new lines to prevent YAML parsing errors.
+          SLACK_MESSAGE: "*Workflow:* `${{ github.workflow }}`\n*Result:* *${{ job.status }}*\n*Branch:* `${{ github.ref_name }}`\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|:mag: View Full Log on GitHub>"
