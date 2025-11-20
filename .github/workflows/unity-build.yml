@@ -22,7 +22,7 @@ jobs:
         run: call "C:\Users\Aaron\Desktop\Builds\TestBuildAndroid.bat"
 
       # Slack notification BEFORE upload
-      - name: Slack Notification: Before Upload
+      - name: Slack Notification Before Upload
         shell: powershell
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -43,7 +43,7 @@ jobs:
         run: 'C:\rclone\rclone.exe copy "C:\Users\Aaron\Desktop\Builds\Builds" gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM --progress'
 
       # Slack notification AFTER upload (success or failure)
-      - name: Slack Notification: Upload Result
+      - name: Slack Notification Upload Result
         if: always()
         shell: powershell
         env:
