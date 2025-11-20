@@ -8,7 +8,7 @@ jobs:
     runs-on: [self-hosted, Windows, X64]
 
     steps:
-      # 1. Checkout repository with private submodules
+      # Checkout repository
       - name: Checkout repo with private submodule authentication
         uses: actions/checkout@v4
         with:
@@ -16,20 +16,34 @@ jobs:
           submodules: true
           persist-credentials: true
 
-      # 2. Run Unity Build
+      # Run Unity Build
       - name: Run Unity Build
         shell: cmd
         run: call "C:\Users\Aaron\Desktop\Builds\TestBuildAndroid.bat"
 
-      # 3. Upload build to Google Drive
+      # Slack notification BEFORE upload
+      - name: Slack Notification: Before Upload
+        shell: powershell
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          $payload = @{
+            text = "🚀 Upload starting...
+*Workflow:* $env:GITHUB_WORKFLOW
+*Branch:* $env:GITHUB_REF_NAME
+<https://github.com/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID|View Full Log on GitHub>"
+          } | ConvertTo-Json -Compress
+          Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
+
+      # Upload build to Google Drive
       - name: Upload build to Google Drive
         shell: cmd
         env:
           RCLONE_CONFIG_GDRIVE_TOKEN: ${{ secrets.RCLONE_GDRIVE_TOKEN }}
         run: 'C:\rclone\rclone.exe copy "C:\Users\Aaron\Desktop\Builds\Builds" gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM --progress'
 
-      # 4. Slack notification (success or failure)
-      - name: Slack Notification
+      # Slack notification AFTER upload (success or failure)
+      - name: Slack Notification: Upload Result
         if: always()
         shell: powershell
         env:
