@@ -8,6 +8,15 @@ jobs:
     runs-on: [self-hosted, Windows, X64]
 
     steps:
+      # Pre-checkout Slack message
+      - name: Slack Notification Workflow Started
+        shell: powershell
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          $payload = @{ text = "🏁 Unity Build workflow started for branch $env:GITHUB_REF_NAME" } | ConvertTo-Json
+          Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
+
       # Checkout repository
       - name: Checkout repo with private submodule authentication
         uses: actions/checkout@v4
@@ -15,6 +24,15 @@ jobs:
           token: ${{ secrets.PRIVATE_REPO_ACCESS_TOKEN }}
           submodules: true
           persist-credentials: true
+
+      # Pre-build Slack message
+      - name: Slack Notification Build Started
+        shell: powershell
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          $payload = @{ text = "🔨 Build started for branch $env:GITHUB_REF_NAME" } | ConvertTo-Json
+          Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
 
       # Run Unity Build
       - name: Run Unity Build
@@ -26,10 +44,11 @@ jobs:
         shell: cmd
         env:
           RCLONE_CONFIG_GDRIVE_TOKEN: ${{ secrets.RCLONE_GDRIVE_TOKEN }}
-        run: 'C:\rclone\rclone.exe copy "C:\Users\Aaron\Desktop\Builds\Builds" gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM --progress'
+        run: |
+          C:\rclone\rclone.exe copy "C:\Users\Aaron\Desktop\Builds\Builds" gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM --progress
 
       # Slack notification (success or failure)
-      - name: Slack Notification
+      - name: Slack Notification Result
         if: always()
         shell: powershell
         env:
