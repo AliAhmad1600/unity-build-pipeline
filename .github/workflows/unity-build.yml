@@ -30,15 +30,30 @@ jobs:
           REM Upload to your Google Drive folder
           C:\rclone\rclone.exe copy "%BUILD_PATH%" gdrive:/ --drive-root-folder-id 1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM --progress
 
-      - name: Send Slack Notification
-        if: always()
+      # Slack notification for SUCCESS
+      - name: Slack Notification: Success
+        if: success()
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
-          MSG_PRETEXT: ${{ job.status == 'success' ? "✅ BUILD & UPLOAD SUCCESS" : "❌ BUILD OR UPLOAD FAILED" }}
-          MSG_COLOR: ${{ job.status == 'success' ? "good" : "danger" }}
+          MSG_PRETEXT: "✅ BUILD & UPLOAD SUCCESS"
+          MSG_COLOR: "good"
           SLACK_MESSAGE: |
             *Workflow:* `${{ github.workflow }}`
-            *Result:* *${{ job.status }}*
+            *Result:* *Success*
+            *Branch:* `${{ github.ref_name }}`
+            <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|:mag: View Full Log on GitHub>
+
+      # Slack notification for FAILURE
+      - name: Slack Notification: Failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          MSG_PRETEXT: "❌ BUILD OR UPLOAD FAILED"
+          MSG_COLOR: "danger"
+          SLACK_MESSAGE: |
+            *Workflow:* `${{ github.workflow }}`
+            *Result:* *Failed*
             *Branch:* `${{ github.ref_name }}`
             <${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|:mag: View Full Log on GitHub>
