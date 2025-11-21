@@ -12,8 +12,6 @@ on:
 jobs:
   build:
     runs-on: [self-hosted, Windows, X64]
-    env:
-      SELECTED_BRANCH: ${{ github.event.inputs.branch }}
 
     steps:
       # Slack notification before any process
@@ -31,9 +29,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.inputs.branch }}
           token: ${{ secrets.PRIVATE_REPO_ACCESS_TOKEN }}
           submodules: true
           persist-credentials: true
+
+      # Set branch environment variable for Slack messages
+      - name: Set Branch Environment Variable
+        run: echo "SELECTED_BRANCH=${{ github.event.inputs.branch }}" >> $GITHUB_ENV
 
       # Slack notification before build
       - name: Slack Notification - Build Starting
