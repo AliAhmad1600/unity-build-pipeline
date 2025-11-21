@@ -14,6 +14,10 @@ jobs:
     runs-on: [self-hosted, Windows, X64]
 
     steps:
+      # Set branch environment variable from input
+      - name: Set branch environment variable
+        run: echo "SELECTED_BRANCH=${{ github.event.inputs.branch }}" >> $GITHUB_ENV
+
       # Slack notification before any process
       - name: Slack Notification - Workflow Starting
         shell: powershell
@@ -33,10 +37,6 @@ jobs:
           token: ${{ secrets.PRIVATE_REPO_ACCESS_TOKEN }}
           submodules: true
           persist-credentials: true
-
-      # Set branch environment variable for Slack messages
-      - name: Set Branch Environment Variable
-        run: echo "SELECTED_BRANCH=${{ github.event.inputs.branch }}" >> $GITHUB_ENV
 
       # Slack notification before build
       - name: Slack Notification - Build Starting
@@ -69,10 +69,9 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           JOB_STATUS: ${{ job.status }}
         run: |
-          $emoji = if ($env:JOB_STATUS -eq "success") { "" } else { "" }
           $text = if ($env:JOB_STATUS -eq "success") { "Build & Upload SUCCESS" } else { "Build OR Upload FAILED" }
           $googleDriveUrl = "https://drive.google.com/drive/folders/1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM"
           $payload = (@{
-            text = "$emoji $text`n*Workflow:* $env:GITHUB_WORKFLOW`n*Result:* $env:JOB_STATUS`n*Branch:* $env:SELECTED_BRANCH`n*Google Drive Folder:* <$googleDriveUrl|Open Build Folder>`n<https://github.com/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID|View Full Log on GitHub>"
+            text = "$text`n*Workflow:* $env:GITHUB_WORKFLOW`n*Result:* $env:JOB_STATUS`n*Branch:* $env:SELECTED_BRANCH`n*Google Drive Folder:* <$googleDriveUrl|Open Build Folder>`n<https://github.com/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID|View Full Log on GitHub>"
           }) | ConvertTo-Json -Compress
           Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
