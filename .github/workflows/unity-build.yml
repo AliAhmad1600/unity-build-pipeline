@@ -2,10 +2,18 @@ name: Unity Build and Upload
 
 on:
   workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Git branch to checkout and build'
+        required: true
+        default: 'main'
+        type: string
 
 jobs:
   build:
     runs-on: [self-hosted, Windows, X64]
+    env:
+      SELECTED_BRANCH: ${{ github.event.inputs.branch }}
 
     steps:
       # Slack notification before any process
@@ -15,7 +23,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           $payload = (@{
-            text = "Unity Build workflow is starting.`n*Workflow:* $env:GITHUB_WORKFLOW`n*Branch:* $env:GITHUB_REF_NAME"
+            text = "Unity Build workflow is starting.`n*Workflow:* $env:GITHUB_WORKFLOW`n*Branch:* $env:SELECTED_BRANCH"
           }) | ConvertTo-Json -Compress
           Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
 
@@ -34,7 +42,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           $payload = (@{
-            text = "Unity Build process is starting.`n*Workflow:* $env:GITHUB_WORKFLOW`n*Branch:* $env:GITHUB_REF_NAME"
+            text = "Unity Build process is starting.`n*Workflow:* $env:GITHUB_WORKFLOW`n*Branch:* $env:SELECTED_BRANCH"
           }) | ConvertTo-Json -Compress
           Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
 
@@ -62,6 +70,6 @@ jobs:
           $text = if ($env:JOB_STATUS -eq "success") { "Build & Upload SUCCESS" } else { "Build OR Upload FAILED" }
           $googleDriveUrl = "https://drive.google.com/drive/folders/1bI--U7S70jspBkr7cgY8IBMkFAZqzkoM"
           $payload = (@{
-            text = "$emoji $text`n*Workflow:* $env:GITHUB_WORKFLOW`n*Result:* $env:JOB_STATUS`n*Branch:* $env:GITHUB_REF_NAME`n*Google Drive Folder:* <$googleDriveUrl|Open Build Folder>`n<https://github.com/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID|View Full Log on GitHub>"
+            text = "$emoji $text`n*Workflow:* $env:GITHUB_WORKFLOW`n*Result:* $env:JOB_STATUS`n*Branch:* $env:SELECTED_BRANCH`n*Google Drive Folder:* <$googleDriveUrl|Open Build Folder>`n<https://github.com/$env:GITHUB_REPOSITORY/actions/runs/$env:GITHUB_RUN_ID|View Full Log on GitHub>"
           }) | ConvertTo-Json -Compress
           Invoke-RestMethod -Uri $env:SLACK_WEBHOOK -Method Post -Body $payload -ContentType 'application/json'
